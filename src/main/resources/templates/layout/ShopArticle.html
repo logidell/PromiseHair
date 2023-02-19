@@ -1,0 +1,49 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+            integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"
+            integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk"
+            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+</head>
+<body>
+<article th:fragment="ShopArticle" id="Shop">
+    <!--  버튼네비게이션, 자바스크립트 추가 예정-->
+
+    <!--    Shop Name 뿌리기-->
+    <nav class="navbar bg-light">
+        <ul>
+            <button style="padding: 2px 2px 2px 2px; margin: 5px 5px 5px 5px" th:each="shopNames :${shopName}">
+                <li th:attr="onclick='getShopInfo(\'' + ${shopNames}+'\'), getReview(\'' + ${shopNames}+'\')'"
+                    th:text="${shopNames}"></li>
+            </button>
+        </ul>
+    </nav>
+    <!-- shop 이미지-->
+    <span class="image main"><img src="images/pic_05.jpg" alt=""/></span>
+
+    <!--    가게 정보 보여주기 위함-->
+    <div id="div-shopInfo">
+
+    </div>
+
+    <br>
+
+    <!--    가게 정보 보여주기 위함-->
+    <div id="div-designerInfo">
+
+    </div>
+
+    <div id="div-review">
+
+    </div>
+
+
+</article>
+</body>
+</html>

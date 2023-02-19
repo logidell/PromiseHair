@@ -1,0 +1,71 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>-Review page- view page</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+          crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+</head>
+
+
+<body>
+
+<header class="container mt-3 py-5">
+  <div class="container-fluid p-4 bg-light bg-gradient">
+    <div class="container p-5 rounded">
+      <h1 class="display-5 text-center fw-semibold text-muted"></h1>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container pb-5">
+    <div class="container-fluid">
+      <form class="row g-3 border border-secondary rounded-3 p-5" id="frm" name="frm" method="post" action="">
+
+        <div class="col-md-4 form-floating">
+          <input type="text" class="form-control" id="reCreate" name="reCreate"   placeholder="작성 날짜" readonly>
+          <label for="reCreate" class="form-label">작성 날짜</label>
+        </div>
+
+        <div class="col-md-4 form-floating">
+          <input type="text" class="form-control" id="reWriter" name="reWriter" placeholder="작성자" readonly>
+          <label for="reWriter" class="form-label">작성자</label>
+        </div>
+
+        <div class="col-md-4 form-floating">
+          <input type="text" class="form-control" id="reShop" name="reShop" placeholder="작성자">
+          <label for="reShop" class="form-label">이용한 지점</label>
+        </div>
+
+        <div class="col-12 form-floating">
+          <input type="text" class="form-control" id="reTitle" name="reTitle" placeholder="작성 날짜">
+          <label for="reTitle" class="form-label">제목</label>
+        </div>
+
+        <div class="col-12 form-floating">
+          <textarea rows="10" class="form-control" id="reContent" name="reContent" placeholder="작성 내용"></textarea>
+          <label for="reContent" class="form-label">작성 내용</label>
+        </div>
+
+        <div class="d-grid gap-4 d-md-flex justify-content-end">
+          <button id="" class="btn btn-outline-dark" type="submit">수정</button>
+          <button id="btn-back" class="btn btn-outline-secondary" type="reset">삭제</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
+
+
+<footer th:replace="layout/SubFooter :: #subfooter "></footer>
+
+</body>
+
+
+</html>

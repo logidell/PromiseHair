@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--mybatis SQL 매핑-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.smp_1.mapper.promiseHairMapper">
+    <!--    유저 회원가입-->
+    <insert id="signUser" parameterType="com.example.smp_1.dto.userDto">
+        INSERT INTO user (user_id, user_pw, user_name, user_ph, user_mail, user_gen)
+        VALUES (#{userId}, #{userPw}, #{userName}, #{userPh}, #{userMail}, #{userGen})
+    </insert>
+
+    <!--    유저 아이디 중복확인-->
+    <select id="checkUserId" parameterType="String" resultType="int">
+        SELECT COUNT(user_id)
+        FROM user
+        WHERE user_id = #{userId}
+    </select>
+
+    <!--    유저 전화번호 중복확인-->
+    <select id="checkUserPh" parameterType="String" resultType="int">
+        SELECT COUNT(user_ph)
+        FROM user
+        WHERE user_ph = #{userPh}
+    </select>
+
+    <!--    유저 이메일 중복확인-->
+    <select id="checkUserMail" parameterType="String" resultType="int">
+        SELECT COUNT(user_id)
+        FROM user
+        WHERE user_mail = #{userMail}
+    </select>
+
+    <!--    사업자 회원가입-->
+    <insert id="signOwner" parameterType="com.example.smp_1.dto.shopDto">
+        INSERT INTO shop (shop_id, shop_pw, shop_name, shop_tel, shop_addr_num, shop_addr_jibun, shop_addr_road,
+                          shop_addr_detail, owner_name, owner_mail, owner_ph,
+                          owner_gen)
+        VALUES (#{shopId}, #{shopPw}, #{shopName}, #{shopTel}, #{shopAddrNum}, #{shopAddrJibun}, #{shopAddrRoad},
+                #{shopAddrDetail}, #{ownerName}, #{ownerMail},
+                #{ownerPh}, #{ownerGen})
+    </insert>
+
+    <!--    사업자 아이디 중복확인-->
+    <select id="checkShopId" parameterType="String" resultType="int">
+        SELECT COUNT(shop_id)
+        FROM shop
+        WHERE shop_id = #{shopId}
+    </select>
+
+    <!--    가게 전화번호 중복확인-->
+    <select id="checkShopTel" parameterType="String" resultType="int">
+        SELECT COUNT(shop_tel)
+        FROM shop
+        WHERE shop_tel = #{shopTel}
+    </select>
+
+    <!--    사업자 전화번호 중복확인-->
+    <select id="checkOwnerPh" parameterType="String" resultType="int">
+        SELECT COUNT(owner_ph)
+        FROM shop
+        WHERE owner_ph = #{ownerPh}
+    </select>
+
+    <!--    사업자 이메일 중복확인-->
+    <select id="checkOwnerMail" parameterType="String" resultType="int">
+        SELECT COUNT(owner_mail)
+        FROM shop
+        WHERE owner_mail = #{ownerMail}
+    </select>
+
+    <!--    유저 로그인-->
+    <select id="checkUserLogin" parameterType="String" resultType="com.example.smp_1.dto.userDto">
+        SELECT *
+        FROM user
+        WHERE user_id = #{userId}
+          AND user_pw = #{userPw}
+    </select>
+
+    <!--    Shop 로그인-->
+    <select id="checkShopLogin" parameterType="String" resultType="com.example.smp_1.dto.shopDto">
+        SELECT *
+        FROM shop
+        WHERE shop_id = #{shopId}
+          AND shop_pw = #{shopPw}
+    </select>
+    <!--    예약-->
+    <insert id="insertAppointment" parameterType="com.example.smp_1.dto.apointDto">
+        INSERT INTO apoint (apoint_time, apoint_cut, apoint_perm, apoint_color, apoint_shop, apoint_date,
+                            apoint_user_name, apoint_user_id, apoint_user_ph, apoint_designer, apoint_designer_num)
+        VALUES (#{apointTime}, #{apointCut}, #{apointPerm}, #{apointColor}, #{apointShop},
+                #{apointDate}, #{apointUserName}, #{apointUserId}, #{apointUserPh}, #{apointDesigner},
+                #{apointDesignerNum})
+    </insert>
+    <!--    Shop Name 뿌리기-->
+    <select id="selectShopName" resultType="String">
+        SELECT shop_name
+        FROM shop
+    </select>
+    <!--    예약 확인-->
+    <select id="apointCheck" parameterType="String" resultType="com.example.smp_1.dto.apointDto">
+        SELECT *
+        FROM apoint
+        where apoint_user_id = #{apointUserId}
+        order by apoint_num desc limit 1;
+    </select>
+
+    <!--    유저 정보 수정 / 유저 정보 업데이트 -->
+    <update id="updateUserInfo" parameterType="com.example.smp_1.dto.userDto">
+        update user
+        set user_pw   = #{userPw},
+            user_ph   = #{userPh},
+            user_mail = #{userMail},
+            user_name = #{userName}
+        where user_id = #{userId}
+    </update>
+
+    <!--  유저 세션 최신화-->
+    <select id="changeUserSession" parameterType="String" resultType="com.example.smp_1.dto.userDto">
+        SELECT *
+        FROM user
+        WHERE user_id = #{userId}
+    </select>
+
+    <!--    유저 예약 정보 가져오기-->
+    <select id="getUserApoints" parameterType="String" resultType="com.example.smp_1.dto.apointDto">
+        SELECT *
+        FROM apoint
+        WHERE apoint_user_id = #{apointUserId}
+        Order by apoint_num
+    </select>
+
+    <!--    샵 예약 정보 가져오기-->
+    <select id="getShopApoints" parameterType="String" resultType="com.example.smp_1.dto.apointDto">
+        SELECT *
+        FROM apoint
+        WHERE apoint_shop = #{apointShop}
+        Order by apoint_num
+    </select>
+
+    <!--    Shop 정보 수정-->
+    <update id="updateShopInfo" parameterType="com.example.smp_1.dto.shopDto">
+        UPDATE shop
+        SET shop_pw          = #{shopPw},
+            shop_name        = #{shopName},
+            shop_tel         = #{shopTel},
+            shop_addr_num    = #{shopAddrNum},
+            shop_addr_jibun  = #{shopAddrJibun},
+            shop_addr_road   = #{shopAddrRoad},
+            shop_addr_detail = #{shopAddrDetail},
+            owner_mail       = #{ownerMail},
+            owner_ph         = #{ownerPh}
+        WHERE shop_id = #{shopId}
+    </update>
+
+    <!--    Shop 세션 최신화-->
+    <select id="changeShopSession" parameterType="String" resultType="com.example.smp_1.dto.shopDto">
+        SELECT *
+        FROM shop
+        WHERE shop_id = #{shopId}
+    </select>
+
+    <!--    디자이너 추가-->
+    <insert id="insertDesigner" parameterType="com.example.smp_1.dto.designerDto">
+        INSERT INTO designer (designer_name, designer_shop, designer_img, apoint_price, designer_introduce,
+                              designer_position)
+        VALUES (#{designerName}, #{designerShop}, #{designerImg}, #{apointPrice}, #{designerIntroduce},
+                #{designerPosition})
+    </insert>
+
+    <!--    샵 이름으로 정보 가져오기-->
+    <select id="getShopInfo" parameterType="String" resultType="com.example.smp_1.dto.shopDto">
+        SELECT *
+        FROM shop
+        WHERE shop_name = #{shopName}
+    </select>
+
+    <!--    샵 이름으로 정보 가져오기-->
+    <select id="getDesignerInfo" parameterType="String" resultType="com.example.smp_1.dto.designerDto">
+        SELECT *
+        FROM designer
+        WHERE designer_shop = #{designerShop}
+    </select>
+
+    <!-- 유저가 정보 바꾸면 예약받은 미용실에서도 값 변경 시키기 위함 -->
+    <update id="chaneUserInfo" parameterType="com.example.smp_1.dto.userDto">
+        UPDATE apoint
+        SET apoint_user_name = #{userName},
+            apoint_user_ph   = #{userPh}
+        WHERE apoint_user_id = #{userId}
+    </update>
+    <!--    샵 정보 바꾸면 예약한 샵 이름 바꾸기 위함-->
+    <update id="changeShopInfo" parameterType="com.example.smp_1.dto.shopDto">
+        UPDATE apoint
+        SET apoint_shop = #{shopName}
+        WHERE apoint_shop = #{shopName}
+    </update>
+    <!--  샵 정보 바꾸면 리뷰 단 샵 이름 바꾸기 위함-->
+    <update id="changeShopInfo2" parameterType="com.example.smp_1.dto.shopDto">
+        UPDATE review
+        SET re_shop = #{shopName}
+        WHERE re_shop = #{shopName}
+    </update>
+    <!--  샵 정보 바꾸면 디자이너 샵 이름 바꾸기 위함-->
+    <update id="changeShopInfo3" parameterType="com.example.smp_1.dto.shopDto">
+        UPDATE designer
+        SET designer_shop = #{shopName}
+        WHERE designer_shop = #{shopName}
+    </update>
+
+    <!-- 리뷰 -->
+    <!--    <select id="selectReviewDto" resultType="com.example.smp_1.dto.reviewDto">-->
+    <!--        select *-->
+    <!--        from review-->
+    <!--        where re_yn = 'N'-->
+    <!--        order by re_idx desc-->
+    <!--    </select>-->
+    <!--  리뷰 작성 -->
+    <insert id="insertReview" parameterType="com.example.smp_1.dto.reviewDto">
+        insert into review (re_designer, re_writer, re_content, re_create, re_shop)
+        values (#{reDesigner}, #{reWriter}, #{reContent}, #{reCreate}, #{reShop})
+    </insert>
+
+    <!--    <select id="reviewDetail" parameterType="String" resultType="com.example.smp_1.dto.reviewDto">-->
+    <!--        select re_idx, re_title, re_writer, re_content, re_create, re_update-->
+    <!--        from review-->
+    <!--        where re_idx = #{reIdx}-->
+    <!--    </select>-->
+
+    <select id="postDesignerInfo" parameterType="String" resultType="com.example.smp_1.dto.designerDto">
+        select *
+        from designer
+        where designer_name = #{designerName}
+          And designer_shop = #{designerShop}
+    </select>
+    <select id="changeApointSession" parameterType="com.example.smp_1.dto.apointDto"
+            resultType="com.example.smp_1.dto.apointDto">
+        select *
+        from apoint
+        where apoint_user_id = #{apointUserId}
+        order by apoint_num desc limit 1;
+    </select>
+    <select id="designerList" parameterType="String" resultType="com.example.smp_1.dto.designerDto">
+        select *
+        from designer
+        where designer_shop = #{apointShop}
+    </select>
+
+    <select id="designerInfo" parameterType="String"
+            resultType="com.example.smp_1.dto.designerDto">
+        select *
+        from designer
+        where designer_name = #{designerName}
+          And designer_shop = #{designerShop}
+    </select>
+    <update id="designerUpdate" parameterType="com.example.smp_1.dto.designerDto">
+        UPDATE designer
+        set designer_name     = #{designerName},
+            designer_Img      = #{designerImg},
+            designer_position = #{designerPosition},
+            designer_introduce=#{designerIntroduce},
+            apoint_price      = #{apointPrice}
+        WHERE designer_shop = #{designerShop}
+          AND designer_num = #{designerNum}
+    </update>
+
+    <!--  디자이너 정보 바꼈을때 예약정보에서도 바꾸기 위함-->
+    <update id="changeDesignerInfo" parameterType="com.example.smp_1.dto.designerDto">
+        UPDATE apoint
+        set apoint_designer = #{designerName}
+        WHERE apoint_designer_num = #{designerNum}
+    </update>
+
+    <select id="getDesignerApoint" parameterType="String" resultType="com.example.smp_1.dto.apointDto">
+        SELECT apoint_time
+        FROM apoint
+        WHERE apoint_designer = #{apointDesigner}
+          AND apoint_shop = #{apointShop}
+          AND apoint_date = #{apointDate}
+    </select>
+
+    <delete id="apointCancel" parameterType="String">
+        DELETE
+        FROM apoint
+        WHERE apoint_designer = #{apointDesigner}
+          AND apoint_shop = #{apointShop}
+          AND apoint_date = #{apointDate}
+          AND apoint_time = #{apointTime}
+          AND apoint_user_id = #{apointUserId}
+    </delete>
+    <select id="getApoints" parameterType="String" resultType="com.example.smp_1.dto.apointDto">
+        SELECT *
+        FROM apoint
+        WHERE apoint_designer = #{apointDesigner}
+          AND apoint_shop = #{apointShop}
+          AND apoint_date = #{apointDate}
+          AND apoint_time = #{apointTime}
+    </select>
+
+    <select id="getReview" parameterType="String" resultType="com.example.smp_1.dto.reviewDto">
+        SELECT *
+        FROM review
+        WHERE re_shop = #{reShop} ORDER BY re_idx DESC limit 3;
+    </select>
+</mapper>

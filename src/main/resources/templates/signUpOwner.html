@@ -1,0 +1,279 @@
+<html>
+<head>
+    <title>사업자 회원가입</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+            crossorigin="anonymous"></script>
+    <!--    ajax-->
+    <script
+            src="https://code.jquery.com/jquery-3.6.1.js"
+            integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+            crossorigin="anonymous"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <link rel="stylesheet" href="assets/css/imagecss.css">
+
+    <style>
+        span {
+            display: none;
+        }
+
+        .ok {
+            color: green;
+        }
+
+        .no {
+            color: red;
+        }
+    </style>
+    <!--    주소 입력을 하기 위해 가져옴-->
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+    <!--    유효성 검사 및 중복체크를 위한 자바스크립트-->
+    <script type="text/javascript" src="useJs/shopCheck.js"></script>
+</head>
+
+<body>
+<!-- 회원가입 영역부터는 템플릿 사용 x bootstrap 사용-->
+
+<header class="container mb-2 p-0">
+    <div class="container m-0">
+        <span class="image main"><img src="images/pic_03.jpg" alt=""/></span>
+    </div>
+</header>
+
+
+<main>
+    <div class="container pb-5">
+        <div class="container-fluid">
+            <form action="/signOwner" class="border border-secondary rounded-3 p-5" method="post">
+                <!-- ID -->
+                <div class="p-2">
+                    <div class="h5 pb-2 mb-4 text-black border-bottom border-secondary">
+                        ID
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="shopId" name="shopId" placeholder=" " onclick="checkId()" onchange="checkId()">
+                        <label for="shopId" class="text-secondary opacity-50">사용할 ID를 입력해 주세요</label>
+                        <!--                        처리결과 뜨는 span-->
+                        <span class="id_ok ok">사용 가능한 아이디입니다.</span>
+                        <span class="id_already no">이미 사용중인 아이디입니다.</span>
+                        <span class="id_not no">5~20자의 영문 소문자, 숫자와 특수기호(_)만 사용 가능합니다.</span>
+                        <span class="checkId no">필수 항목입니다.</span>
+                    </div>
+                </div>
+
+                <!-- PW -->
+                <div class="p-2">
+                    <div class="h5 pb-2 mb-4 text-black border-bottom border-secondary">
+                        Password
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control" id="shopPw" name="shopPw" placeholder=" " onclick="checkPw()" onchange="checkPw(); checkDoublePw()">
+                        <label for="shopPw" class="text-secondary opacity-50">사용할 Password를 입력해 주세요</label>
+                        <!--                        처리결과 뜨는 span-->
+                        <span class="pwd_ok ok">사용 가능한 비밀번호입니다.</span>
+                        <span class="pwd_not no">8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.</span>
+                        <span class="pwd_space no">비밀번호는 공백 없이 입력해주세요.</span>
+                        <span class="checkPw no">필수 항목입니다.</span>
+                    </div>
+                </div>
+
+                <!-- PW2 -->
+                <div class="p-2">
+                    <div class="h5 pb-2 mb-4 text-black border-bottom border-secondary">
+                        Check Password
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control" id="shopPw2" name="shopPw2" placeholder=" " onclick="checkPw2()" onchange="checkDoublePw()">
+                        <label for="shopPw2" class="text-secondary opacity-50">Password를 한번 더 입력해주세요.</label>
+                        <!--                        처리결과 뜨는 span-->
+                        <span class="pwd2_ok ok">두 비밀번호가 일치합니다.</span>
+                        <span class="pwd2_not no">두 비밀번호가 다릅니다.</span>
+                        <span class="checkPw2 no">필수 항목입니다.</span>
+
+                    </div>
+                </div>
+
+                <!-- 상호명 -->
+                <div class="p-2">
+                    <div class="h5 pb-2 mb-4 text-black border-bottom border-secondary">
+                        Shop Name
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="shopName" name="shopName" placeholder=" " onclick="checkShopName()" onchange="checkShopName()">
+                        <label for="shopName" class="text-secondary opacity-50">Shop Name을 입력해 주세요</label>
+
+                        <span class="checkShopName no">필수 항목입니다.</span>
+                    </div>
+                </div>
+
+                <!-- 주소 -->
+                <div class="row mb-3 mx-auto">
+                    <div class="h5 pb-2 mb-4 text-black border-bottom border-secondary">
+                        Shop Address
+                    </div>
+                    <div class="row align-items-center p-2">
+                        <div class="col-2 text-center">
+                            <label for="shopAddrNum" onkeyup="checkAddress()" onchange="checkAddress()" class="col-form-label"> Addr </label>
+                        </div>
+                        <div class="col-7">
+                            <input id="shopAddrNum" name="shopAddrNum" type="text" class="form-control" placeholder="우편번호" readonly>
+                            <span class="checkAddr no">필수 항목입니다.</span>
+                        </div>
+                        <div class="col-1">
+                            <input id="addrBtn" type="button" class="btn btn-outline-danger" onclick="addressGet(); checkAddress()" value="Find Addr">
+                        </div>
+                    </div>
+                    <div class="row align-items-center p-2">
+                        <div class="col-2 text-center">
+                            <label for="shopAddrJibun" class="col-form-label">지번 주소 </label>
+                        </div>
+                        <div class="col-10">
+                            <input id="shopAddrJibun" name="shopAddrJibun" type="text" class="form-control" placeholder="지번 주소" readonly>
+                        </div>
+                    </div>
+                    <div class="row align-items-center p-2">
+                        <div class="col-2 text-center">
+                            <label for="shopAddrRoad" class="col-form-label"> 도로명 주소 </label>
+                        </div>
+                        <div class="col-10">
+                            <input id="shopAddrRoad" name="shopAddrRoad" type="text" class="form-control" placeholder="도로명 주소" readonly>
+                        </div>
+                    </div>
+                    <div class="row align-items-center p-2">
+                        <div class="col-2 text-center">
+                            <label for="shopAddrDetail" class="col-form-label"> 상세주소</label>
+                        </div>
+                        <div class="col-10">
+                            <input id="shopAddrDetail" name="shopAddrDetail" type="text" class="form-control" placeholder="상세 주소">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shop Tel -->
+                <div class="p-2">
+                    <div class="h5 pb-2 mb-4 text-black border-bottom border-secondary">
+                        Shop Tel
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="shopTel" name="shopTel" placeholder=" " onclick="checkShopTel()" onchange="checkShopTel()">
+                        <label for="shopTel" class="text-secondary opacity-50">전화번호를 입력해 주세요</label>
+                        <!--                        처리결과 뜨는 span-->
+                        <span class="tel_ok ok">사용 가능한 전화번호입니다.</span>
+                        <span class="tel_already no">이미 사용중인 전화번호입니다.</span>
+                        <span class="tel_not no">잘못된 전화번호입니다.</span>
+                        <span class="checkTel no">필수 항목입니다.</span>
+                    </div>
+                </div>
+
+                <!-- Owner Name -->
+                <div class="p-2">
+                    <div class="h5 pb-2 mb-4 text-black border-bottom border-secondary">
+                        Name
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="ownerName" name="ownerName" placeholder=" " onclick="checkName()" onchange="checkName()">
+                        <label for="ownerName" class="text-secondary opacity-50">이름을 입력해 주세요</label>
+
+                        <span class="checkName no">필수 항목입니다.</span>
+                    </div>
+                </div>
+
+                <!-- Phone -->
+                <div class="p-2">
+                    <div class="h5 pb-2 mb-4 text-black border-bottom border-secondary">
+                        Phone
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="ownerPh" name="ownerPh" placeholder=" " onclick="checkPh()" onchange="checkPh()">
+                        <label for="ownerPh" class="text-secondary opacity-50">전화번호를 입력해 주세요</label>
+                        <!--                        처리결과 뜨는 span-->
+                        <span class="ph_ok ok">사용 가능한 전화번호입니다.</span>
+                        <span class="ph_already no">이미 사용중인 전화번호입니다.</span>
+                        <span class="ph_not no">잘못된 전화번호입니다.</span>
+                        <span class="checkPh no">필수 항목입니다.</span>
+                    </div>
+                </div>
+                <!-- mail -->
+                <div class="p-2">
+                    <div class="h5 pb-2 mb-4 text-black border-bottom border-secondary">
+                        Email
+                    </div>
+                    <div class="form-floating mb-3">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <input onclick="checkMail()" onchange="checkMail()" name="ownerMail" type="email" class="form-control form-control-lg" id="ownerMail" placeholder="Email">
+                                <span class="mail_ok ok">사용 가능한 이메일입니다.</span>
+                                <span class="mail_already no">이미 사용중인 이메일입니다.</span>
+                                <span class="mail_not no">잘못된 이메일입니다.</span>
+                                <span class="checkMail no">필수 항목입니다.</span>
+                            </div>
+                            <div class="col-2">
+                                <label class="text-secondary opacity-50"> </label>
+                                <button type="button" id="btn-sendMail" disabled onclick="sendMail()" class="btn btn-outline-dark">인증번호 발송</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input disabled type="text" class="form-control" id="ownerWord" placeholder=" " onclick="checkWord()" onchange="checkWord()">
+                        <label for="ownerWord" class="text-secondary opacity-50">인증번호를 입력해 주세요</label>
+                        <!--                        처리결과 뜨는 span-->
+                        <span class="word_ok ok">인증되었습니다.</span>
+                        <span class="word_not no">틀린 인증번호입니다.</span>
+                        <span class="checkWord no">필수 항목입니다.</span>
+                    </div>
+                </div>
+
+
+                <!-- 값 입력 받을 시 활성화 해서 사용하거나 다른 방법 사용할 수도? (밑 코드는 jsp 코드입니다. 사용시 유의) -->
+                <!--                <%-->
+                <!--                String orderPMM1 = "card";-->
+                <!--                String orderPMM2 = "무통장";-->
+                <!--                %>-->
+                <!-- gender -->
+                <div class="p-2">
+                    <div class="h5 pb-2 mb-4 text-black border-bottom border-secondary">
+                        Gender
+                    </div>
+                    <div class="p-3 pb-2 mb-4">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input ownerGen" type="radio" name="ownerGen" id="1" value="M" onclick="checkGender()">
+                            <label class="form-check-label" for="1">male</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input ownerGen" type="radio" name="ownerGen" id="2" value="F" onclick="checkGender()">
+                            <label class="form-check-label" for="2">Female</label>
+                        </div>
+                        <span class="checkGen no">필수 항목입니다.</span>
+                    </div>
+                </div>
+
+
+                <div class="container">
+                    <div class="container-fluid">
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-outline-dark" type="button" id="btn-signUp" onclick="checkAll()">Sign
+                                Up
+                            </button>
+                            <button class="btn btn-outline-secondary" type="button" onclick="history.back()">Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+</main>
+
+
+<!--footer-->
+<footer th:replace="layout/SubFooter :: #subfooter "></footer>
+
+</body>
+</html>

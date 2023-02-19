@@ -1,0 +1,335 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>마이페이지</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="assets/css/imagecss.css">
+
+    <!--    마이페이지로 세션 값 없이 바로 접근시 처리하기 위한 스크립트-->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        if ([[${message}]] != null) {
+            var message = [[${message}]];
+            alert(message);
+            location.href = "/main";
+        }
+        /*]]>*/
+    </script>
+    <script>
+        function designerUpdate(obj) {
+            var par = obj.parent();
+            let dName = par.find('td:eq(0)').text();
+            let dShop = par.find('td:eq(4)').text();
+            $.ajax({
+                url: "/designerUpdate",
+                type: "post",
+                data: {dName: dName, dShop: dShop},
+                success: function (data) {
+                    location.href = '/designerUpdatePage';
+                }, errors: function () {
+                    alert("실패");
+                }
+            });
+        }
+    </script>
+    <style>
+        .table th, .table td {
+            text-align: center;
+            vertical-align: middle !important;
+        }
+    </style>
+
+</head>
+
+<body>
+<!-- 회원가입 영역부터는 템플릿 사용 x bootstrap 사용 디자인은 기능 중간 집계 이후 고칠 예정-->
+
+<header class="container mb-2 p-0">
+    <div class="container m-0">
+        <span class="image main"><img src="images/pic_mypage.jpg" alt=""/></span>
+    </div>
+</header>
+
+<!--바로 값이 안뜨는게 있어서 새로고침 해줌-->
+<main onLoad=”if (location.href.indexOf(‘reload’)==-1) location.replace(location.href+’?reload’)”>
+    <div class="container pb-5">
+        <div class="container-fluid">
+            <form class="border border-secondary rounded-3 p-5">
+
+                <!-- 네비  -->
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home"
+                            type="button" role="tab" aria-controls="nav-home" aria-selected="true">My Page
+                    </button>
+
+
+                    <button class="nav-link" id="nav-apoint-tab" data-bs-toggle="tab" data-bs-target="#nav-apoint"
+                            type="button" role="tab" aria-controls="nav-apoint" aria-selected="false"> 예약 목록
+                    </button>
+
+                    <button class="nav-link" id="nav-designer-tab" data-bs-toggle="tab" data-bs-target="#nav-designer"
+                            type="button" role="tab" aria-controls="nav-designer" aria-selected="false"> 디자이너 목록
+                    </button>
+                </div>
+
+                <!--------------------------------------------------------------------------------------------------------------->
+                <!--                마이페이지 회원정보 영역-->
+                <!-- 내용 넣는 곳 -->
+                <div class="p-5">
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+                            <!--  회원정보 타이틀 -->
+                            <div class="h4 pb-2 mb-4 text-black border-bottom border-secondary">
+                                회원 정보
+                            </div>
+
+                            <!-- Shop 아이디  -->
+                            <div class="text-center">
+                                <div class="row g-3 p-3">
+                                    <div class="col-2">
+                                        <label for="shopId" class="col-form-label">아이디</label>
+                                    </div>
+                                    <!--  Shop 아이디 / 텍스트 뷰 라벨 -->
+                                    <div class="col-10">
+                                        <input id="shopId" class="form-control" type="text" value="ID 보여질 곳" th:value="${session.shop.shopId}" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Shop Pw  -->
+                            <div class="text-center">
+                                <div class="row g-3 p-3">
+                                    <div class="col-2">
+                                        <label for="shopPw" class="col-form-label">비밀번호</label>
+                                    </div>
+                                    <!--  Shop Pw / 텍스트 뷰 라벨 -->
+                                    <div class="col-10">
+                                        <input id="shopPw" class="form-control" type="text" th:value="${session.shop.shopPw}" value="PW 보여질 곳" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--  가게 이름 / 텍스트 라벨-->
+                            <div class="text-center">
+                                <div class="row g-3 p-3">
+                                    <div class="col-2">
+                                        <label for="shopName" class="col-form-label">가게 이름</label>
+                                    </div>
+                                    <!--  가게 이름 / 텍스트 뷰 라벨 -->
+                                    <div class="col-10">
+                                        <input id="shopName" class="form-control" type="text" value="이름 보여질 곳" th:value="${session.shop.shopName}" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 가게 번호  -->
+                            <div class="text-center">
+                                <div class="row g-3 p-3">
+                                    <div class="col-2">
+                                        <label for="shopTel" class="col-form-label">가게 번호</label>
+                                    </div>
+                                    <!--  회원 phone / 텍스트 뷰 라벨 -->
+                                    <div class="col-10">
+                                        <input id="shopTel" class="form-control" type="tel" th:value="${session.shop.shopTel}" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 사업자 등록번호  -->
+                            <div class="text-center">
+                                <div class="row g-3 p-3">
+                                    <div class="col-2">
+                                        <label for="shopBusiness" class="col-form-label">사업자 등록 번호</label>
+                                    </div>
+                                    <!--  회원 / 텍스트 뷰 라벨 -->
+                                    <div class="col-10">
+                                        <input id="shopBusiness" class="form-control" type="tel" th:value="${session.shop.shopBusiness}" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--                            우편번호-->
+                            <div class="text-center">
+                                <div class="row g-3 p-3">
+                                    <div class="col-2">
+                                        <label for="shopAddrNum" class="col-form-label">우편번호</label>
+                                    </div>
+                                    <!--  회원 Email / 텍스트 뷰 라벨 -->
+                                    <div class="col-10">
+                                        <input id="shopAddrNum" class="form-control" type="text" th:value="${session.shop.shopAddrNum}" value="우편번호" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 신주소  -->
+                            <div class="text-center">
+                                <div class="row g-3 p-3">
+                                    <div class="col-2">
+                                        <label for="shopAddrRoad" class="col-form-label">신주소</label>
+                                    </div>
+                                    <div class="col-10">
+                                        <input id="shopAddrRoad" class="form-control" type="text" th:value="${session.shop.shopAddrRoad}" value="신주소" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--                            구주소-->
+                            <div class="text-center">
+                                <div class="row g-3 p-3">
+                                    <div class="col-2">
+                                        <label for="shopAddrJibun" class="col-form-label">구주소</label>
+                                    </div>
+                                    <div class="col-10">
+                                        <input id="shopAddrJibun" class="form-control" type="text" th:value="${session.shop.shopAddrJibun}" value="구주소" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--                            상세주소-->
+                            <div class="text-center">
+                                <div class="row g-3 p-3">
+                                    <div class="col-2">
+                                        <label for="shopAddrDetail" class="col-form-label">상세주소</label>
+                                    </div>
+                                    <div class="col-10">
+                                        <input id="shopAddrDetail" class="form-control" type="text" th:value="${session.shop.shopAddrDetail}" value="상세주소" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--                            원장명-->
+                            <div class="text-center">
+                                <div class="row g-3 p-3">
+                                    <div class="col-2">
+                                        <label for="ownerName" class="col-form-label">원장 명</label>
+                                    </div>
+                                    <div class="col-10">
+                                        <input id="ownerName" class="form-control" type="text" th:value="${session.shop.ownerName}" value="원장명" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--                            원장폰-->
+                            <div class="text-center">
+                                <div class="row g-3 p-3">
+                                    <div class="col-2">
+                                        <label for="ownerPh" class="col-form-label">휴대폰 번호</label>
+                                    </div>
+                                    <div class="col-10">
+                                        <input id="ownerPh" class="form-control" type="text" th:value="${session.shop.ownerPh}" value="휴대폰 번호" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--                            원장 메일-->
+                            <div class="text-center">
+                                <div class="row g-3 p-3">
+                                    <div class="col-2">
+                                        <label for="ownerMail" class="col-form-label">메일</label>
+                                    </div>
+                                    <div class="col-10">
+                                        <input id="ownerMail" class="form-control" type="text" th:value="${session.shop.ownerMail}" value="원장 메일" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end p-3">
+                                <button class="btn btn-outline-dark me-md-2" type="button"
+                                        onclick="location.href='/myPageShopUpdate'">수정
+                                </button>
+                                <button id="btn-back" class="btn btn-outline-dark me-md-2" type="button"
+                                        onclick="location.href='/main'">Home
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-content" id="nav-apoint-tabContent">
+                        <div class="tab-pane fade show" id="nav-apoint" role="tabpanel"
+                            aria-labelledby="nav-apoint-tab" tabindex="0">
+                            <div class="h4 pb-2 mb-4 text-black border-bottom border-secondary">
+                                예약 목록
+                            </div>
+                            <table th:if="${session.apoints} != null" class="table">
+                                <thead class="table-dark">
+                                <tr>
+                                    <th>이용자</th>
+                                    <th>이용자 번호</th>
+                                    <th>디자이너</th>
+                                    <th>컷</th>
+                                    <th>펌</th>
+                                    <th>염색</th>
+                                    <th>날짜</th>
+                                    <th>시간</th>
+                                </tr>
+                                </thead>
+                                <tbody class="table-striped">
+                                <tr th:each="apointsList:${session.apoints}">
+                                    <td th:text="${apointsList.apointUserName}"></td>
+                                    <td th:text="${apointsList.apointUserPh}"></td>
+                                    <td th:text="${apointsList.apointDesigner}"></td>
+                                    <td th:text="${apointsList.apointCut}"></td>
+                                    <td th:text="${apointsList.apointPerm}"></td>
+                                    <td th:text="${apointsList.apointColor}"></td>
+                                    <td th:text="${apointsList.apointDate}"></td>
+                                    <td th:text="${apointsList.apointTime}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <h2 th:if="${session.apoints} == null">조회된 예약목록이 없습니다.</h2>
+                        </div>
+                    </div>
+                    <!--                    디자이너 목록-->
+                    <div class="tab-content" id="nav-designer-tabContent">
+                        <div class="tab-pane fade show" id="nav-designer" role="tabpanel" aria-labelledby="nav-designer-tab">
+                            <div class="h4 pb-2 mb-4 text-black border-bottom border-secondary" tabindex="0">
+                                디자이너 목록
+                            </div>
+                            <table th:if="${session.designers} != null" class="table">
+                                <thead class="table-dark">
+                                <tr>
+                                    <th>디자이너 이름</th>
+                                    <th>직급</th>
+                                    <th>예약금</th>
+                                    <th>한줄소개</th>
+                                    <th>수정</th>
+                                </tr>
+                                </thead>
+                                <form>
+                                    <tbody class="table-striped">
+                                    <tr th:each="designerList:${session.designers}">
+                                        <td id="designerName" th:text="${designerList.designerName}"></td>
+                                        <td th:text="${designerList.designerPosition}"></td>
+                                        <td th:text="${designerList.apointPrice}"></td>
+                                        <td th:text="${designerList.designerIntroduce}"></td>
+                                        <td hidden id="designerShop" th:text="${designerList.designerShop}"></td>
+                                        <td onclick="designerUpdate($(this))">
+                                            <button type="button" class="btn btn-outline-primary">수정</button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </form>
+                            </table>
+                            <h2 th:if="${session.designers} == null">조회된 디자이너가 없습니다.</h2>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <!--    마이페이지 예약 목록 영역-->
+
+
+</main>
+
+<!--footer-->
+<footer th:replace="layout/SubFooter :: #subfooter "></footer>
+
+</body>
+</html>

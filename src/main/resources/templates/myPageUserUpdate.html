@@ -1,0 +1,179 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Page - 내 정보 수정</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="assets/css/imagecss.css">
+    <style>
+        span {
+            display: none;
+        }
+
+        .ok {
+            color: green;
+        }
+
+        .no {
+            color: red;
+        }
+    </style>
+    <!--    유효성 검사 및 중복체크를 위한 자바스크립트-->
+    <script type="text/javascript" src="useJs/userUpDate.js"></script>
+</head>
+
+<body class="align-center">
+<!-- 회원가입 영역부터는 템플릿 사용 x bootstrap 사용 디자인은 기능 중간 집계 이후 고칠 예정-->
+
+<header class="container mb-2 p-0">
+    <div class="container m-0">
+        <span class="image main"><img src="images/pic_mypageuser.jpg" alt=""/></span>
+    </div>
+</header>
+
+<main>
+    <div class="container pb-5">
+        <div class="container-fluid">
+            <form class="border border-secondary rounded-3 p-5" id="frm" action="/userUpdate">
+
+                <!-- 내용 넣는 곳 -->
+                <div class="p-5">
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+                            <!--  회원정보 타이틀 -->
+                            <div class="h4 pb-2 mb-4 text-black border-bottom border-secondary">
+                                회원정보
+                            </div>
+
+                            <!--  회원 이름 / 텍스트 라벨-->
+                            <div class="text-center">
+                                <div class="row g-3 p-3">
+                                    <div class="col-2">
+                                        <label for="userName" class="col-sm-3 col-form-label">이름</label>
+                                    </div>
+                                    <!--  회원 이름 / 텍스트 뷰 라벨 -->
+                                    <div class="col-10">
+                                        <input onchange="checkName()" onclick="checkName()" id="userName" name="userName" class="form-control" type="text" th:value="${session.user.userName}">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 회원정보 아이디  -->
+                            <div class="text-center">
+                                <div class="row g-3 p-3">
+                                    <div class="col-2">
+                                        <label for="userId" class="col-sm-3 col-form-label">ID</label>
+                                    </div>
+                                    <!--  회원 아이디 / 텍스트 뷰 라벨 -->
+                                    <div class="col-10">
+                                        <input id="userId" name="userId" class="form-control" type="text" th:value="${session.user.userId}" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 회원정보 Pw  -->
+                            <div class="text-center">
+                                <div class="row g-3 p-3">
+                                    <div class="col-2">
+                                        <label for="userPw" class="col-sm-3 col-form-label">PW</label>
+                                    </div>
+                                    <!--  회원 Pw / 텍스트 뷰 라벨 -->
+                                    <div class="col-10">
+                                        <input id="userPw" name="userPw" class="form-control" type="text" th:value="${session.user.userPw}" onclick="upDatePw()" onchange="upDatePw()">
+                                        <span class="pwd_ok ok">사용 가능한 비밀번호입니다.</span>
+                                        <span class="pwd_not no">8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.</span>
+                                        <span class="pwd_space no">비밀번호는 공백 없이 입력해주세요.</span>
+                                        <span class="checkPw no">필수 항목입니다.</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 회원정보 phone  -->
+                            <div class="text-center">
+                                <div class="row g-3 p-3">
+                                    <div class="col-2">
+                                        <label for="userPh" class="col-sm-3 col-form-label">Phone</label>
+                                    </div>
+                                    <!--  회원 phone / 텍스트 뷰 라벨 -->
+                                    <div class="col-10">
+                                        <input id="userPh" name="userPh" class="form-control" type="tel" th:value="${session.user.userPh}" onclick="upDatePh()" onchange="upDatePh()">
+                                        <span class="ph_ok ok">사용 가능한 전화번호입니다.</span>
+                                        <span class="ph_already no">이미 사용중인 전화번호입니다.</span>
+                                        <span class="ph_not no">잘못된 전화번호입니다.</span>
+                                        <span class="updatePn no">필수 항목입니다.</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 회원정보 Email  -->
+                            <div class="text-center">
+                                <div class="row g-3 p-3">
+                                    <div class="col-2">
+                                        <label for="userMail" class="col-sm-3 col-form-label">Email</label>
+                                    </div>
+                                    <!--  회원 Email / 텍스트 뷰 라벨 -->
+                                    <div class="col-10">
+                                        <input onclick="checkMail()" onchange="checkMail()" name="userMail" type="email" class="form-control" id="userMail" th:value="${session.user.userMail}">
+                                        <span class="mail_ok ok">사용 가능한 이메일입니다.</span>
+                                        <span class="mail_already no">이미 사용중인 이메일입니다.</span>
+                                        <span class="mail_not no">잘못된 이메일입니다.</span>
+                                        <span class="checkMail no">필수 항목입니다.</span>
+                                    </div>
+                                </div>
+
+                                <!--              ===============================================================================================================-->
+                                <div class="p-2">
+
+                                    <div class="form-floating mb-3">
+                                        <div class="row">
+                                            <div class="col-2">
+
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-floating mb-10">
+                                                    <input disabled type="text" class="form-control" id="userWord" placeholder=" " onclick="checkWord()" onchange="checkWord()">
+                                                    <label for="userWord" class="text-secondary opacity-50">인증번호를 입력해 주세요</label>
+                                                    <!--                        처리결과 뜨는 span-->
+                                                    <span class="word_ok ok">인증되었습니다.</span>
+                                                    <span class="word_not no">틀린 인증번호입니다.</span>
+                                                    <span class="checkWord no">필수 항목입니다.</span>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-4">
+                                                <label class="text-secondary opacity-50"> </label>
+                                                <button type="button" id="btn-sendMail" disabled onclick="sendMail()" class="btn btn-outline-dark">인증번호 발송</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!--              =================================================================================================================-->
+
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end p-3">
+                                <button id="btn-update" class="btn btn-outline-dark me-md-2" type="button" onclick="checkAll()">수정 완료</button>
+                                <button id="btn-back" class="btn btn-outline-dark me-md-2" type="button" onclick="history.back()">취소</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</main>
+
+
+<!--footer-->
+<footer th:replace="layout/SubFooter :: #subfooter "></footer>
+
+</body>
+</html>

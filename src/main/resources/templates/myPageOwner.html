@@ -1,0 +1,146 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>MyPage-Owner-</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="assets/css/imagecss.css">
+    <link rel="stylesheet" href="assets/css/imagecss.css">
+</head>
+
+<body>
+<!-- 회원가입 영역부터는 템플릿 사용 x bootstrap 사용 디자인은 기능 중간 집계 이후 고칠 예정-->
+
+<header class="container mb-2 p-0">
+    <div class="container m-0">
+        <span class="image main"><img src="images/pic_03.jpg" alt=""/></span>
+    </div>
+</header>
+
+
+<main>
+    <div class="container pb-5">
+        <div class="container-fluid">
+            <form class="border border-secondary rounded-3 p-5">
+
+                <!-- 네비  -->
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home"
+                            type="button" role="tab" aria-controls="nav-home" aria-selected="true">예약 관리
+                    </button>
+
+
+                    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile"
+                            type="button" role="tab" aria-controls="nav-profile" aria-selected="false"> 디자이너 관리
+                    </button>
+
+
+                    <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact"
+                            type="button" role="tab" aria-controls="nav-contact" aria-selected="false"> 공지사항, 리뷰 관리
+                    </button>
+
+                </div>
+
+                <!--------------------------------------------------------------------------------------------------------------->
+                <!-- 내용 넣는 곳 -->
+
+                <section>
+                <div class="p-5">
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+                            <!--  회원정보 타이틀 -->
+                            <div class="h4 pb-2 mb-4 text-black border-bottom border-secondary">
+                                예약 관리
+                            </div>
+
+
+                            <!--  회원 이름 / 텍스트 라벨-->
+                            <div class="text-center">
+                                <div class="row g-3 p-3">
+                                    <div class="col-2">
+                                        <label for="userName" class="col-sm-3 col-form-label">이름</label>
+                                    </div>
+                                    <!--  회원 이름 / 텍스트 뷰 라벨 -->
+                                    <div class="col-10">
+                                        <input id="userName" class="form-control" type="text" value="이름 보여질 곳" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 회원정보 아이디  -->
+                            <div class="text-center">
+                                <div class="row g-3 p-3">
+                                    <div class="col-2">
+                                        <label for="userId" class="col-sm-3 col-form-label">ID</label>
+                                    </div>
+                                    <!--  회원 이름 / 텍스트 뷰 라벨 -->
+                                    <div class="col-10">
+                                        <input id="userId" class="form-control" type="text" value="ID 보여질 곳" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 회원정보 Pw  -->
+                            <div class="text-center">
+                                <div class="row g-3 p-3">
+                                    <div class="col-2">
+                                        <label for="userPw" class="col-sm-3 col-form-label">PW</label>
+                                    </div>
+                                    <!--  회원 Pw / 텍스트 뷰 라벨 -->
+                                    <div class="col-10">
+                                        <input id="userPw" class="form-control" type="text" value="PW 보여질 곳" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 회원정보 phone  -->
+                            <div class="text-center">
+                                <div class="row g-3 p-3">
+                                    <div class="col-2">
+                                        <label for="userPh" class="col-sm-3 col-form-label">연락처</label>
+                                    </div>
+                                    <!--  회원 phone / 텍스트 뷰 라벨 -->
+                                    <div class="col-10">
+                                        <input id="userPh" class="form-control" type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" value="010-0000-0000" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 회원정보 Email  -->
+                            <div class="text-center">
+                                <div class="row g-3 p-3">
+                                    <div class="col-2">
+                                        <label for="userMail" class="col-sm-3 col-form-label">E-mail</label>
+                                    </div>
+                                    <!--  회원 Email / 텍스트 뷰 라벨 -->
+                                    <div class="col-10">
+                                        <input id="userMail" class="form-control" type="email" value="email 보여질 곳" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end p-3">
+                                <button class="btn btn-outline-dark me-md-2" type="button">수정</button>
+                                <button class="btn btn-outline-secondary" type="button">취소</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </section>
+
+                <section>
+
+                </section>
+            </form>
+        </div>
+    </div>
+
+</main>
+<!--footer-->
+<footer th:replace="layout/SubFooter :: #subfooter "></footer>
+</body>
+</html>

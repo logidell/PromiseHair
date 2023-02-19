@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<!--
+Dimension by HTML5 UP
+html5up.net | @ajlkn
+Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+<head>
+    <title>회원가입 선택지</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <link rel="stylesheet" href="assets/css/main.css"/>
+    <noscript>
+        <link rel="stylesheet" href="assets/css/noscript.css"/>
+    </noscript>
+</head>
+<body class="is-preload">
+
+<!-- Wrapper -->
+<!--주의, 래퍼 제거시 모든 틀 제거가 되고 css, sass, js 가 적용이 되지 않아 애니메이션 적용이 안됨.
+    wrapper =  전체적 컨테이너 역할-->
+<div id="wrapper">
+    <article>
+        <div class="container">
+            <div class="form-label align-center">
+                <h2>가입하실 유형을 선택해주세요</h2>
+                <div>
+                    <button style="width: 500px" class="btn btn-outline-primary btn-sm col-lg-2" type="button"
+                            onclick="location.href='/signUpUser'">일반
+                    </button>
+                </div>
+                <p></p>
+                <div>
+                    <button style="width: 500px" class="btn btn-outline-primary btn-sm " type="button"
+                            onclick="location.href='/signUpOwner'">
+                        사업자
+                    </button>
+                </div>
+            </div>
+        </div>
+    </article>
+    <!--Footer-->
+    <footer th:replace="layout/Footer :: mainFooter"></footer>
+</div>
+
+<!-- BG -->
+<div id="bg"></div>
+
+<!-- Scripts -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/browser.min.js"></script>
+<script src="assets/js/breakpoints.min.js"></script>
+<script src="assets/js/util.js"></script>
+<script src="assets/js/main.js"></script>
+
+</body>
+</html>

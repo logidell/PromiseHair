@@ -1,0 +1,112 @@
+<!DOCTYPE HTML>
+<!--
+Dimension by HTML5 UP
+html5up.net | @ajlkn
+Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Promise</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <link rel="stylesheet" href="assets/css/main.css"/>
+    <noscript>
+        <link rel="stylesheet" href="assets/css/noscript.css"/>
+    </noscript>
+    <!--    로그인/예약확인을 하기 위한 js-->
+    <script type="text/javascript" src="useJs/login.js"></script>
+
+    <!--    Shop 버튼 누를때마다 값 주기 위함-->
+    <script type="text/javascript" src="useJs/shop.js"></script>
+    <!--    swal(alert 대체)-->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        // <!-- 유저 아이디로 예약 가져오기 -->
+        function getUserId() {
+            var id = $("#apointUserId").val();
+            $.ajax({
+                url: "getUserApoints",
+                type: "post",
+                data: {apointUserId: id},
+            })
+        }
+
+        <!-- Shop 이름으로 예약 가져오기-->
+        function getShopName() {
+            var name = $("#apointShop").val();
+            $.ajax({
+                url: "getShopApoints",
+                type: "post",
+                data: {apointShop: name},
+            })
+        }
+    </script>
+    <style>
+        ul {
+            list-style: none;
+            padding-left: 0px;
+        }
+        .swal-button {
+            padding: 0px 15px;
+            border-radius: 2px;
+            background-color: rgba(0, 150, 184, 0.63);
+            font-size: 10px;
+            /*border: 1px solid rgba(62, 84, 154, 0.13);*/
+            text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+
+
+<body class="is-preload">
+
+<!-- Wrapper -->
+<!--주의, 래퍼 제거시 모든 틀 제거가 되고 css, sass, js 가 적용이 되지 않아 애니메이션 적용이 안됨.
+    wrapper =  전체적 컨테이너 역할-->
+<div id="wrapper">
+
+    <!-- Header -->
+    <!-- layout의 header 파일 -->
+    <header th:replace="layout/Header :: mainHeader"></header>
+
+    <!-- Main -->
+    <!-- 밑의 div - id 태그 : css, sass, js 파일이 적용되어있습니다. wrapper와 마찬가지. -->
+    <div id="main">
+
+        <!-- Login section / 로그인 -->
+        <article th:replace="layout/LoginArticle :: #Login"></article>
+
+        <!-- Shop section / 헤어샵-->
+        <article th:replace="layout/ShopArticle :: #Shop"></article>
+
+        <!-- About -->
+        <article th:replace="layout/AgentArticle :: #Agent"></article>
+
+        <!-- About -->
+        <article th:replace="layout/AboutArticle :: #About"></article>
+
+
+        <article th:replace="layout/Mypage :: #Mypage"></article>
+
+
+        <article th:replace="layout/apointCheck :: #apointCheck"></article>
+
+
+    </div>
+
+    <!--Footer-->
+    <footer th:replace="layout/Footer :: mainFooter"></footer>
+</div>
+
+<!-- BG -->
+<div id="bg"></div>
+
+<!-- Scripts -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/browser.min.js"></script>
+<script src="assets/js/breakpoints.min.js"></script>
+<script src="assets/js/util.js"></script>
+<script src="assets/js/main.js"></script>
+
+</body>
+</html>
